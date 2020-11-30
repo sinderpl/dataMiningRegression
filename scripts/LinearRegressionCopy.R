@@ -21,7 +21,7 @@ pairs( updated_med_gpa, panel=function(x,y){
 # -BS -BCPM - PS - VR
 #GPA + VR + PS + BS + MCAT
 # GPA + VR + PS + BS - MCAT predicts well for test
-med_gpa_model <- lm(updated_med_gpa$MCAT ~ .,data=updated_med_gpa)
+med_gpa_model <- lm(updated_med_gpa$MCAT ~ . -GPA -BCPM,data=updated_med_gpa)
 med_gpa_model$coefficients
 summary(med_gpa_model)
 
