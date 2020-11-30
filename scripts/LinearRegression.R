@@ -1,6 +1,7 @@
 #library(moments) 
 
 #Analyses computational power data and attempts to predict the total performance score.
+#Uses linear regression
 
 #Read in data and clean unnecessary columns  and null values
 machine_information <- read.csv("data/machine.data", strip.white=TRUE)
