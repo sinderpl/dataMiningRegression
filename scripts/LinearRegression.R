@@ -77,7 +77,7 @@ machine_information_model3 <- lm(machine_information$Published.performace ~
 machine_information_model3$coefficients
 summary(machine_information_model3)
 
-#Predicitions based on initial modell to compare to the baseline
+#Predicitions based on initial model to compare to the baseline
 predicted_machine_model <- round(predict(machine_information_model, machine_information_test_data))
 machine_information_test_data$Estimated.My.performance = predicted_machine_model
 
