@@ -19,6 +19,7 @@ customer_data <- customer_data[complete.cases(customer_data),]
 
 #Data summary and exploration
 summary(customer_data)
+table(customer_data$Churn)
 
 
 #Convert outcome to a factor
@@ -37,7 +38,7 @@ prop.table(table(customer_data_train$Churn))
 prop.table(table(customer_data_test$Churn))
 
 #Cost Matrix
-error_cost <- matrix(c(0, 1, 1, 0), nrow = 2)
+error_cost <- matrix(c(0, 1, 3, 0), nrow = 2)
 
 
 
@@ -50,12 +51,10 @@ error_cost <- matrix(c(0, 1, 1, 0), nrow = 2)
 telco_model_c50 <- C5.0(Churn ~., data =customer_data_train)
 telco_model_c50_cost_matrix <- C5.0(Churn ~., data =customer_data_train, costs = error_cost)
 telco_model_c50_10 <- C5.0(Churn ~., data =customer_data_train, trials=10)
-telco_model_c50_20 <- C5.0(Churn ~., data =customer_data_train, trials=20)
 
 #Summaries
 summary(telco_model_c50)
 summary(telco_model_c50_10)
-summary(telco_model_c50_20)
 summary(telco_model_c50_cost_matrix)
 
 
@@ -68,17 +67,18 @@ summary(telco_model_cart)
 
 #Predict and evaluate c5.0 
 predict_telco_model_c50 <- predict(telco_model_c50, customer_data_test)
-telco_model_c50_cost_matrix <- predict(telco_model_c50_cost_matrix, customer_data_test)
+predict_telco_model_c50_cost_matrix <- predict(telco_model_c50_cost_matrix, customer_data_test)
 predict_telco_model_c50_10 <- predict(telco_model_c50_10, customer_data_test)
 predict_telco_model_cart <- predict(telco_model_cart, customer_data_test)
 
 #plots
 plot(predict_telco_model_c50)
-plot(telco_model_c50_cost_matrix)
+plot(predict_telco_model_c50_cost_matrix)
 plot(predict_telco_model_c50_10)
 plot(predict_telco_model_cart)
 
 #Cross tables
 CrossTable(predict_telco_model_c50, customer_data_test$Churn,prop.chisq = FALSE, prop.c = FALSE, prop.r = FALSE,dnn = c('predicted default', 'actual default'))
 CrossTable(predict_telco_model_c50_10, customer_data_test$Churn,prop.chisq = FALSE, prop.c = FALSE, prop.r = FALSE,dnn = c('predicted default', 'actual default'))
-CrossTable(telco_model_c50_cost_matrix, customer_data_test$Churn,prop.chisq = FALSE, prop.c = FALSE, prop.r = FALSE,dnn = c('predicted default', 'actual default'))
+CrossTable(predict_telco_model_c50_cost_matrix, customer_data_test$Churn,prop.chisq = FALSE, prop.c = FALSE, prop.r = FALSE,dnn = c('predicted default', 'actual default'))
+CrossTable(predict_telco_model_cart, customer_data_test$Churn,prop.chisq = FALSE, prop.c = FALSE, prop.r = FALSE,dnn = c('predicted default', 'actual default'))
